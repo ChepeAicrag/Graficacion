@@ -1,12 +1,14 @@
 from math import sin, cos, pi
 
 __author__ = "Jose Angel Garcia Garcia"
-__license__ = "BSD-2-Clause"
 __email__ = "chepeaicrag12@gmail.com"
 
 def line(p1, p2):
     '''
         Algoritmo para trazar una linea mediante dos puntos
+        :param p1: tupla como primer punto
+        :param p2: tupla como segundo punto
+        :return: list con los puntos intermedios entre p1 y p2
     '''
     puntos = []
     x0, y0 = p1
@@ -37,7 +39,7 @@ def line(p1, p2):
         puntos.append((x, y))
     return puntos
 
-def add_point(x, y, puntos):
+def __add_point(x, y, puntos):
     '''
         Función para agregar x, y con sus variaciones a una lista
     '''
@@ -57,7 +59,7 @@ def circunferencia(r):
     puntos = []
     x, y = 0, r
     p = 5/4 - r
-    add_point(x, y, puntos)
+    __add_point(x, y, puntos)
     while y > x:
         x = x + 1
         aux = p + 2 * x  # x = xk + 1  -> dE = 2 (x + 1)  = 2x + 2
@@ -66,7 +68,7 @@ def circunferencia(r):
         else:
             p = aux - 2 * y + 3  # dSE = 2x + 2 - 2y + 3
             y = y - 1
-        add_point(y, x, puntos)
+        __add_point(y, x, puntos)
     return puntos
 
 
@@ -92,7 +94,7 @@ def escalado(p = (0, 0), pf = (0, 0), t = (0, 0)):
 
 def traslacion(p = (0, 0), t = (0, 0)):
     '''
-        Escalado de coordenadas mediante un vector de escalamiento
+        Traslacion de coordenadas mediante un vector de escalamiento
     '''
     x, y = p
     xt, yt = t
