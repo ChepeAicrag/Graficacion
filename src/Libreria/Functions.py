@@ -81,7 +81,7 @@ def rotacion(p = (0, 0), pf = (0, 0), teta = 0):
     xp, yp = pf
     x, y = p
     dif_x, dif_y, s, c = x - xp, y - yp, round(sin(teta)), round(cos(teta))
-    return xp + dif_x * c - dif_y * s, xp + dif_x * s + dif_y * c
+    return xp + dif_x * c - dif_y * s, yp + dif_x * s + dif_y * c
 
 def escalado(p = (0, 0), pf = (0, 0), t = (0, 0)):
     '''
