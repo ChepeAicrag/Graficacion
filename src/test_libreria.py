@@ -23,32 +23,35 @@ def draw_point(x, y, c):
   linea.append([y, x])
 
 # points = [[(), ()]]
-def paint_line(points, color):
+def paint_lines(points, color):
   for i in points:
       for j in line(i[0], i[1]):
           x, y = j
           draw_point(x, y, color)
 
-def generar_traslacion(puntos=[], t=(0, 0)):
+def generar_traslacion(puntos = [], t = (0, 0)):
   points_direction = combinacion(puntos, 2)
   print(points_direction)
-  for i in points_direction:
-      for j in line(i[0], i[1]):
-          x, y = j
-          xr, yr = traslacion(p=j, t=t)
-          draw_point(x, y, 'blue')
-          draw_point(xr, yr, 'red')
+  points_transferred = [ [traslacion(p = i[0], t = t), traslacion(p = i[1], t = t)] for i in points_direction ]
+  print(points_transferred)
+  paint_lines(points_direction, 'blue')
+  paint_lines(points_transferred, 'red')
   imprimir_linea()
   
 def generar_rotacion(puntos = [], pf = (0, 0), teta = 0):
   points_direction = combinacion(puntos, 2)
   print (points_direction)
+  # points_rotated = [ [rotacion(p = i[0], pf = pf, teta = teta), rotacion(p = i[1], pf = pf, teta = teta)] for i in points_direction ]
+  # print(points_rotated)
+  # paint_lines(points_direction, 'blue')
+  # paint_lines(points_rotated, 'red')
   for i in points_direction:
-      for j in line(i[0], i[1]):
-          x, y = j
-          xr, yr = rotacion(p = j, pf = pf, teta = teta)
-          draw_point(x, y, 'c')
-          draw_point(xr, yr, 'c')
+        for j in line(i[0], i[1]):
+            x, y = j
+            xr, yr = rotacion(p = j, pf = pf, teta = teta)
+            draw_point(x, y, 'blue')
+            draw_point(xr, yr, 'red')
+
   imprimir_linea()
 
 def generar_escalado(puntos = [], t = (0, 0)):
@@ -58,45 +61,36 @@ def generar_escalado(puntos = [], t = (0, 0)):
   pf = puntos[0]
   points_escalados = [ [escalado(p = i[0], pf = pf, t = t), escalado(p = i[1], pf = pf, t = t)] for i in points_direction]
   print (points_escalados)
-  paint_line(points_direction, 'blue')
-  paint_line(points_escalados, 'red')
-  
-  
-  #for i in points_direction:
-  #    for j in line(i[0], i[1]):
-  #        x, y = j
-          #xr, yr = escalado(p = j, pf = puntos[0], t = t)
-  #        draw_point(x, y, 'blue')
-          #draw_point(xr, yr, 'red')
-      
-      #xe, ye = escalado(p = i[0], pf = pf, t = t)
-      #xe2, ye2 = escalado(p = i[1], pf = pf, t = t)
-      #for k in line((xe, ye), (xe2, ye2)):
-      #  xk, yk = k
-      #  draw_point(xk, yk, 'red')
-      
+  paint_lines(points_direction, 'blue')
+  paint_lines(points_escalados, 'red')
   imprimir_linea()
 
 if '__main__' == '__main__':
   # p1 = (1, 1)
   # p2 = (2, 3)
   # p3 = (3, 1)
-  # T = (2, 2)
-  # generar_traslacion(puntos=[p1, p2, p3], t=T)
+  # T = (4, 4)
+  # generar_traslacion(puntos = [p1, p2, p3], t = T)
 
   # p1 = (1, 2)
   # p2 = (3, 5)
   # p3 = (12, 15)
   # pf = (1, 2)
   # teta = 45
-  # generar_rotacion(puntos = [p1, p2, p3], pf = pf, teta = teta)
+  p1 = (1, 1)
+  p2 = (10, 1)
+  p3 = (5, 10)
+  pf = (5, 10)
+  teta = 90
+  generar_rotacion(puntos = [p1, p2, p3], pf = pf, teta = teta)
   
   # p1 = (1, 4)
   # p2 = (4, 2)
   # p3 = (3, 10)
   # T = (2, 2)
-  p1 = (1, 1)
-  p2 = (3, 1)
-  p3 = (2, 3)
-  T = (2, 3)
-  generar_escalado(puntos = [p1, p2, p3], t = T)
+
+  # p1 = (1, 1)
+  # p2 = (3, 1)
+  # p3 = (2, 3)
+  # T = (2, 3)
+  # generar_escalado(puntos = [p1, p2, p3], t = T)
