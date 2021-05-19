@@ -54,12 +54,12 @@ def generar_rotacion(puntos = [], pf = (0, 0), teta = 0):
 
   imprimir_linea()
 
-def generar_escalado(puntos = [], t = (0, 0)):
+def generar_escalado(puntos = [], s = (0, 0)):
   if len(puntos) < 2: return
   points_direction = combinacion(puntos, 2)
   print (points_direction)
   pf = puntos[0]
-  points_escalados = [ [escalado(p = i[0], pf = pf, t = t), escalado(p = i[1], pf = pf, t = t)] for i in points_direction]
+  points_escalados = [ [escalado(p = i[0], pf = pf, s = s), escalado(p = i[1], pf = pf, s = s)] for i in points_direction]
   print (points_escalados)
   paint_lines(points_direction, 'blue')
   paint_lines(points_escalados, 'red')
@@ -92,5 +92,5 @@ if '__main__' == '__main__':
   # p1 = (1, 1)
   # p2 = (3, 1)
   # p3 = (2, 3)
-  # T = (2, 3)
-  # generar_escalado(puntos = [p1, p2, p3], t = T)
+  # S = (2, 3)
+  # generar_escalado(puntos = [p1, p2, p3], s = S)

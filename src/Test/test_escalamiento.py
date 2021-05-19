@@ -11,7 +11,7 @@ def generar_escalado(puntos = [], t = (0, 0)):
     for i in points_direction:
         for j in line(i[0], i[1]):
             x, y = j
-            xr, yr = escalado(p = j, pf = puntos[0], t = t)
+            xr, yr = escalado(p = j, pf = puntos[0], s = t)
             draw_point(x, y, 'blue')
             draw_point(xr, yr, 'red')
 

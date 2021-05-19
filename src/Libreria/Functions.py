@@ -55,6 +55,7 @@ def __add_point(x, y, puntos):
 def circunferencia(r):
     '''
         Algoritmo para trazar una circunferencia a partir de un radio r
+        :params r: radio de la circunferencia
     '''
     puntos = []
     x, y = 0, r
@@ -62,11 +63,11 @@ def circunferencia(r):
     __add_point(x, y, puntos)
     while y > x:
         x = x + 1
-        aux = p + 2 * x  # x = xk + 1  -> dE = 2 (x + 1)  = 2x + 2
+        aux = p + 2 * x  
         if p < 0:
-            p = aux + 1  # -> dE = 2x + 2 + 1 = 2x + 3
+            p = aux + 1  
         else:
-            p = aux - 2 * y + 3  # dSE = 2x + 2 - 2y + 3
+            p = aux - 2 * y + 3  
             y = y - 1
         __add_point(y, x, puntos)
     return puntos
@@ -75,7 +76,11 @@ def circunferencia(r):
 
 def rotacion(p = (0, 0), pf = (0, 0), teta = 0):
     '''
-        Rotación de coordenadas mediante un punto fijo y un ángulo 
+        Rotación de una coordenada respecto a un punto arbitrario y un ángulo 
+        :params p: coordenada como tupla (x, y)
+        :params pf: coordenada de punto sobre el que se rota como tupla (xp, yp)
+        :params teta: ángulo de rotación en grados
+        :return: coordenada rotada con respecto a un punto arbitrario como tupla (x', y')        
     '''
     teta = teta * pi / 180
     xp, yp = pf
@@ -83,18 +88,25 @@ def rotacion(p = (0, 0), pf = (0, 0), teta = 0):
     dif_x, dif_y, s, c = x - xp, y - yp, round(sin(teta)), round(cos(teta))
     return xp + dif_x * c - dif_y * s, yp + dif_x * s + dif_y * c
 
-def escalado(p = (0, 0), pf = (0, 0), t = (0, 0)):
+def escalado(p = (0, 0), pf = (0, 0), s = (0, 0)):
     '''
-        Escalado de coordenadas mediante un punto fijo y un vector de escalamiento
+        Escalado de una coordenada respecto a un punto arbitrario y un vector de escalamiento
+        :params p: coordenada como tupla (x, y)
+        :params pf: coordenada de punto fijo como tupla (xp, yp)
+        :params s: vector de escalamiento como tupla (xs, ys)
+        :return: coordenada escalada con respecto a un punto arbitrario como tupla (x', y')
     '''
     x, y, = p
     xp, yp = pf 
-    xt, yt = t
-    return xp + xt * (x - xp), yp + yt * (y - yp)
+    xs, ys = s
+    return xp + xs * (x - xp), yp + ys * (y - yp)
 
 def traslacion(p = (0, 0), t = (0, 0)):
     '''
-        Traslacion de coordenadas mediante un vector de escalamiento
+        Traslación de una coordenada mediante un vector de traslación
+        :params p: coordenada como tupla (x, y)
+        :params t: vector de traslación como tupla (xt, yt)
+        :return: coordenada trasladada como tupla (x', y')
     '''
     x, y = p
     xt, yt = t
