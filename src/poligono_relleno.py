@@ -73,7 +73,9 @@ def generar_poligono(n = 0):
       x, y = round(d * cos(t_aux) + dx), round(d * sin(t_aux) + dy)
       t_aux += teta
       puntos.append((x, y))
-  print(puntos) # Puntos de los vertices
+  return puntos 
+
+def draw_poligono(puntos):
   points_direction = get_vertices(puntos) # La combinación entre esos vertices para marcar los puntos de las líneas
   ymax = max( [ y for x, y in puntos ] ) # La y maxima para hacer el pintado de forma horizontal
   print ('points_direction', points_direction)  
@@ -82,6 +84,73 @@ def generar_poligono(n = 0):
   rellenar(points_lines, ymax) # Pinta los pixeles interiores del poligono (relleno)
   imprimir_linea()
 
+def rotate_poligono(puntos = [], pf = (0, 0), teta = 0):
+  return [ rotacion(p, pf, teta) for p in puntos ]
+  
+def translate_poligono(puntos = [], t = (0, 0)):
+  return [ traslacion(p, t) for p in puntos ]
 
+def escalado_poligono(puntos = [], pf = (0, 0), e = (0, 0)):
+  return [ escalado(p, pf, e) for p in puntos ]
+
+def crear_poligono():
+  puntos = []
+  n = int(input('Introduce el el número de lados: '))
+  if n < 3: 
+    print('El número de lados debe ser mayor a 3')
+  else: 
+    return generar_poligono(n)
+  return puntos
+
+def limpiar_pantalla():
+  matriz_linea = np.zeros((N, N))
+  linea = []
+
+def validar_poligono(poligono):
+  if len(poligono) == 0: 
+    print('Debe crear un poligono primeramnete')
+    return False
+  return True
+
+def draw_poligono_msj(poligono,  msj):
+  print(msj)
+  draw_poligono(poligono)
+  limpiar_pantalla()
+
+def menu():
+    poligono = []
+    while True:
+        op = int(input('Seleccione una opción:\n1. Crear poligono\n2. Aplicar traslación\n3. Aplicar Escalado\n4. Aplicar Rotación\n5. Salir'))
+        if op == 5: return
+        elif op == 1:
+          poligono = crear_poligono()
+          if len(poligono) == 0: break
+          draw_poligono_msj(poligono, 'El poligono creado es: ')
+        elif op == 2:
+          draw_poligono_msj(poligono, 'El poligono creado es: ')
+          
+          poligono_trasladado = translate_poligono(poligono, t = )
+          draw_poligono_msj(poligono_trasladado, 'El poligono trasladado creado es: ')
+        elif op == 3:
+
+        elif op == 4:
+
+        else: 
+          print('Seleccione correctamente')
+          break
+          
 if '__main__' == '__main__':
-  generar_poligono(6)
+  #poligono = generar_poligono(6)
+  #print(poligono)
+  #teta = 45
+  #draw_poligono(poligono)
+
+  #poligono_rotado = rotate_poligono(puntos = poligono, teta = teta)
+  #draw_poligono(poligono_rotado)
+
+  #poligono_trasladado = translate_poligono(poligono, t = (25, 25))
+  #draw_poligono(poligono_trasladado)
+
+  #poligono_escalado = escalado_poligono(poligono, pf = (0, 0), e = (2, 2))
+  #draw_poligono(poligono_escalado)
+  menu()
