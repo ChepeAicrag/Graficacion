@@ -42,7 +42,7 @@ def draw_poligono(puntos):
   points_direction = [ [ puntos[i], puntos[i + 1 if i < l - 1 else 0] ] for i in range(l) ]
   ymax = max( [ y for x, y in puntos ] ) 
   points_lines = [ j for i in points_direction for j in line(i[0], i[1]) ]  
-  #paint_lines(points_lines) 
+  paint_lines(points_lines) 
   values_x = []
   for vy in range(ymax):
     values_x = [ x for (x, y) in points_lines if y == vy ]
@@ -62,7 +62,6 @@ def draw_poligono_msj(poligono,  msj):
   print(poligono)
   print(msj)
   draw_poligono(poligono)
-  limpiar_pantalla()
 
 def menu():
     poligono = []
