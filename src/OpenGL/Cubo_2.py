@@ -1,6 +1,7 @@
 """
-Solución de la actividad 2 T3
+Solución de la actividad 1 T4
 """
+
 import OpenGL
 import OpenGL.GL
 import OpenGL.GLUT
@@ -9,6 +10,14 @@ from OpenGL import *
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
+
+# from pynput import keyboard as kb
+
+# def pulsa(tecla):
+# 	print('Se ha pulsado la tecla ' + str(tecla))
+
+# with kb.Listener(pulsa) as escuchador:
+# 	escuchador.join()
 
 w, h = 500, 500
 theta = 45
