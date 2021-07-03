@@ -1,6 +1,3 @@
-"""
-    Solución de la actividad 3 T3
-"""
 import OpenGL
 import OpenGL.GL
 import OpenGL.GLUT
@@ -36,7 +33,7 @@ laberinto = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
              [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
-def squad(x, y, z, n, i, c):
+def square(x, y, z, n, i, c):
     r, g, b = c
     glBegin(GL_QUADS)
     glColor3f(r, g, b)
@@ -57,22 +54,22 @@ def squad(x, y, z, n, i, c):
         glVertex3f(x, y, z + n)
     glEnd()
 
-def cubo(x, y, z, c):
-    n = 1 / 11
-    squad(x, y, z, n, 0, c)
-    squad(x, y, z + n, n, 0, c)
-    squad(x + n, y, z, n, 1, c)
-    squad(x, y, z, n, 1, c)
-    squad(x, y + n, z, n, 2, c)
-    squad(x, y, z, n, 2, c)
+def cube(x, y, z, n, c):
+    square(x, y, z, n, 0, c)
+    square(x, y, z + n, n, 0, c)
+    square(x + n, y, z, n, 1, c)
+    square(x, y, z, n, 1, c)
+    square(x, y, z, n, 2, c)
+    square(x, y + n, z, n, 2, c)
 
 def make_lab(matriz):
+    n = 1 / 11
     for x in range(len(matriz)):
         for y in range(len(matriz[x])):
             color = (0, 0, 0)
             if matriz[x][y] == 0:
                 color = (1, 1, 1)
-            cubo(y/11 - 1, 1 - x/11, 1 - x/11, color)
+            cube(y * n - 1, 1 - x * n, 1 - x * n, n, color)
 
 def showScreen():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -86,14 +83,10 @@ def main():
     glutInit()  # Iniciamos la instancia de glut
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH) # Asignamos el modelo de color que usaremos
     glutInitWindowSize(600, 600) # Damos el tamaño de la ventana que se mostrará
-    glutInitWindowPosition(0, 0) # Coordenadas en donde aparecerá la venta en la pantalla
+    glutInitWindowPosition(0, 0) # Coordenadas en donde aparecerá la ventana en la pantalla
     glutCreateWindow("Laberinto en 3D")  # Damos un titulo para la ventana
-    glClearColor(0, 0, 0, 1)
-    glColor3f(1, 1, 1)
-    glEnable(GL_DEPTH_TEST)
-    glutDisplayFunc(showScreen) # Designamos la función que contiene los elemntos que serán mostrados en la escena
-    glutIdleFunc(glutPostRedisplay)
+    glEnable(GL_DEPTH_TEST) # Permite ver sin transparentar las figuras
+    glutDisplayFunc(showScreen) # Designamos la función que contiene los elementos que serán mostrados en la escena
     glutMainLoop()  # Iniciamos el loop principal
-    return 0
 
 main()
