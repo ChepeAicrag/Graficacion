@@ -14,9 +14,9 @@ from OpenGL.GLU import *
 w, h = 500, 500
 theta = 0
 
-rotate_x = 3
-rotate_y = -6
-rotate_z = 0
+rx, px = 3, 0
+ry, py = -6, 0
+rz, pz = 0, 0
 
 def square(x, y, z, i, c):
     r, g, b = c
@@ -56,51 +56,78 @@ def turn():
     glutPostRedisplay()
 
 def mover(key, x, y):
-    global rotate_y
-    global rotate_x
-    global rotate_z
+    global ry
+    global rx
+    global rz
+    global px 
+    global py 
+    global pz 
+
     move = 0.10 
     key = key.decode('utf-8')
     print(key)
     if (key == 'f'):
+        exit(0)
         return 0
-    elif (key == 'Y'):
-        rotate_y = rotate_y + move
-    elif (key == 'y'):
-        rotate_y = rotate_y - move
-    elif (key == 'X'):
-        rotate_x = rotate_x + move
-    elif (key == 'x'):
-        rotate_x = rotate_x - move
-    elif (key == 'Z'):
-        rotate_z = rotate_z + move
-    elif (key == 'z'):
-        rotate_z = rotate_z - move
-
+    elif (key == 'w'):
+        rz += move
+        pz += move 
+    elif (key == 's'):
+        rz -= move
+        pz -= move
+    elif (key == 'a'):
+        rx -= move
+        px -= move
+    elif (key == 'd'):
+        rx += move
+        px += move
     glutPostRedisplay()
 
 def iterate():
     glViewport(0, 0, w, h)
     glMatrixMode(GL_PROJECTION)  # Seleccionamos la matriz de proyección
     glLoadIdentity()  # Limpiamos la matriz seleccionada
-    # Definimos la proyección a usar como una ortogonal
-    # glOrtho(-5, 5, -5, 5, 5, -5)
+    # glOrtho(-1, 1, -1, 1, -1, 1)
     # glLoadIdentity()  # Limpiamos la matriz seleccionada
-    # glFrustum(-1, 1, -1, 1, 2, 10)
-    gluPerspective(120, 1, 1, 400)
+    glFrustum(-1, 1, -1, 1, 2, 10)
+    # gluPerspective(120, 1, 1, 10)
     glMatrixMode(GL_MODELVIEW)  # Seleccionamos la matriz del modelo
     glLoadIdentity()  # Limpiamos la matrxiz seleccionada, a partir de este punto lo que se haga quedara en la matriz del modelo de vista
 
+def eje():
+    n = 100
+    # Eje y
+    glColor3f(0, 1, 0)
+    glBegin(GL_LINE_STRIP)
+    glVertex3f(0, 0, 0)
+    glVertex3f(0, n, 0)
+    glEnd()
+    # Eje x
+    glColor3f(1, 0, 0)
+    glBegin(GL_LINE_STRIP)
+    glVertex3f(0, 0, 0)
+    glVertex3f(n, 0, 0)
+    glEnd()
+    # Eje z
+    glColor3f(0, 0, 1)
+    glBegin(GL_LINE_STRIP)
+    glVertex3f(0, 0, 0)
+    glVertex3f(0, 0, n)
+    glEnd()
 
 def showScreen():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
     iterate()
     glPushMatrix()
-    print(rotate_x, rotate_y, rotate_z)
-    gluLookAt(rotate_x, rotate_y, rotate_z, 0, 0, 0, 0, 0, 1)
-    glRotatef(theta, 1, 1, 1)
+    print(rx, ry, rz)
+    # gluLookAt(5, 5, 5, px, py, pz, 0, 0, 1)
+    gluLookAt(5, 5, 5, px, py, pz, 0, 0, 1)
+    glRotatef(theta, 1, 0, 0)
+    glRotatef(theta, 0, 1, 0)
+    glRotatef(theta, 0, 0, 1)
     cube(-1, 1, 1)
+    eje()
     glPopMatrix()
     glutSwapBuffers()
 
