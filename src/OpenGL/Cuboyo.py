@@ -71,7 +71,7 @@ def main():
     glutCreateWindow("Cubo con OpenGL")  # Damos un titulo para la ventana
     glEnable(GL_DEPTH_TEST)
     glutDisplayFunc(showScreen) # Designamos la función que contiene los elemntos que serán mostrados en la escena
-    glutIdleFunc(turn)
+    glutIdleFunc(turn) 
     glutMainLoop()  # Iniciamos el loop principal
 
 main()
