@@ -8,9 +8,9 @@ from OpenGL.GLUT import *
 from OpenGL.GLU import *
 
 w, h = 500, 500
-rotate_x = 3
-rotate_y = -6
-rotate_z = 0
+rx, px = 3, 0
+ry, py = -6, 0
+rz, pz = 0, 0
 
 laberinto = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -36,34 +36,35 @@ laberinto = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
              [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
-def square(x, y, z, n, i, c):
+def squad(x, y, z, n, i, c):
     r, g, b = c
     glBegin(GL_QUADS)
     glColor3f(r, g, b)
     if i == 0:
         glVertex3f(x, y, z)
         glVertex3f(x + n, y, z)
-        glVertex3f(x + n, y + n, z)
-        glVertex3f(x, y + n, z)
+        glVertex3f(x + n, y - n, z)
+        glVertex3f(x, y - n, z)
     elif i == 1:
         glVertex3f(x, y, z)
-        glVertex3f(x, y, z + n)
-        glVertex3f(x, y + n, z + n)
-        glVertex3f(x, y + n, z)
+        glVertex3f(x, y, z - n)
+        glVertex3f(x, y - n, z - n)
+        glVertex3f(x, y - n, z)
     elif i == 2:
         glVertex3f(x, y, z)
         glVertex3f(x + n, y, z)
-        glVertex3f(x + n, y, z + n)
-        glVertex3f(x, y, z + n)
+        glVertex3f(x + n, y, z - n)
+        glVertex3f(x, y, z - n)
     glEnd()
 
-def cube(x, y, z, n, c):
-    square(x, y, z, n, 0, c)
-    square(x, y, z + n, n, 0, c)
-    square(x + n, y, z, n, 1, c)
-    square(x, y, z, n, 1, c)
-    square(x, y, z, n, 2, c)
-    square(x, y + n, z, n, 2, c)
+def cubo(x, y, z, c):
+    n = 1 / 11
+    squad(x, y, z, n, 0, c)
+    squad(x, y, z-n, n, 0, c)
+    squad(x + n, y, z, n, 1, c)
+    squad(x, y, z, n, 1, c)
+    squad(x, y - n, z, n, 2, c)
+    squad(x, y, z, n, 2, c)
 
 def make_lab(matriz):
     n = 1 / 11
@@ -72,42 +73,66 @@ def make_lab(matriz):
             color = (0, 0, 0)
             if matriz[x][y] == 0:
                 color = (1, 1, 1)
-            cube(y * n - 1, 1 - x * n, 1 - x * n, n, color)
+            cubo(y * n - 1, 1 - x * n, 1, color)
 
 def mover(key, x, y):
-    global rotate_y
-    global rotate_x
-    global rotate_z
+    global ry
+    global rx
+    global rz
+    global px 
+    global py 
+    global pz 
+
     move = 0.10 
     key = key.decode('utf-8')
     print(key)
     if (key == 'f'):
+        exit(0)
         return 0
-    elif (key == 'Y'):
-        rotate_y = rotate_y + move
-    elif (key == 'y'):
-        rotate_y = rotate_y - move
-    elif (key == 'X'):
-        rotate_x = rotate_x + move
-    elif (key == 'x'):
-        rotate_x = rotate_x - move
-    elif (key == 'Z'):
-        rotate_z = rotate_z + move
-    elif (key == 'z'):
-        rotate_z = rotate_z - move
+    elif (key == 'j'):
+        px -= move 
+    elif (key == 'i'):
+        pz += move 
+    elif (key == 'k'):
+        pz -= move 
+    elif (key == 'l'):
+        px += move 
 
+    elif (key == 'w'):
+        rz += move
+        pz += move 
+    elif (key == 's'):
+        rz -= move
+        pz -= move
+    elif (key == 'a'):
+        rx -= move
+        x -= move
+    elif (key == 'd'):
+        rx += move
+        px += move    
+    elif (key == 'q'):
+        ry -= move
+        py -= move
+    elif (key == 'e'):
+        ry += move
+        py += move
     glutPostRedisplay()
 
+def iterate():
+    glViewport(0, 0, w, h)
+    glMatrixMode(GL_PROJECTION)  # Seleccionamos la matriz de proyección
+    glLoadIdentity()  # Limpiamos la matriz seleccionada
+    glFrustum(-1, 1, -1, 1, 2, 10)
+    glMatrixMode(GL_MODELVIEW)  # Seleccionamos la matriz del modelo
+    glLoadIdentity()  # Limpiamos la matrxiz seleccionada, a partir de este punto lo que se haga quedara en la matriz del modelo de vista
 
 def showScreen():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
-    glMatrixMode(GL_PROJECTION)  # Seleccionamos la matriz de proyección
-    glLoadIdentity()  # Limpiamos la matriz seleccionada
+    iterate()
     # gluPerspective(120, 1, 1, 40)   
-    glFrustum(-1, 1, -1, 1, 2, 10)
     glPushMatrix()
-    gluLookAt(rotate_x, rotate_y, rotate_z, 0, 0, 0, 1, 0, 0)
+    gluLookAt(rx, ry, rz, px, py, pz, 0, 0, 1)
     make_lab(laberinto)
     glPopMatrix()
     glutSwapBuffers()

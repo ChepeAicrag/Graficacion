@@ -135,9 +135,9 @@ def showScreen():
     glPushMatrix()
     print(rx, ry, rz)
     # gluLookAt(5, 5, 5, px, py, pz, 0, 0, 1)
-    gluLookAt(5, 5, 5, px, py, pz, 0, 0, 1)
+    gluLookAt(rx, ry, rz, px, py, pz, 0, 0, 1)
     # glRotatef(theta, 1, 0, 0)
-    # glRotatef(theta, 0, 1, 0)lk
+    # glRotatef(theta, 0, 1, 0)
     # glRotatef(theta, 0, 0, 1)
     cube(-1, 1, 1)
     eje()

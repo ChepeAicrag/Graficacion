@@ -88,7 +88,7 @@ def showScreen():
     glLoadIdentity()
     iterate()
     glPushMatrix()
-    glRotatef(90, 1, 1, 1)
+    glRotatef(45, 0, 0, 1)
     make_lab(laberinto)
     glPopMatrix()
     glutSwapBuffers()
