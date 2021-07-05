@@ -40,43 +40,46 @@ def squad(x, y, z, n, i, c):
     if i == 0:
         glVertex3f(x, y, z)
         glVertex3f(x + n, y, z)
-        glVertex3f(x + n, y + n, z)
-        glVertex3f(x, y + n, z)
+        glVertex3f(x + n, y - n, z)
+        glVertex3f(x, y - n, z)
     elif i == 1:
         glVertex3f(x, y, z)
-        glVertex3f(x, y, z + n)
-        glVertex3f(x, y + n, z + n)
-        glVertex3f(x, y + n, z)
+        glVertex3f(x, y, z - n)
+        glVertex3f(x, y - n, z - n)
+        glVertex3f(x, y - n, z)
     elif i == 2:
         glVertex3f(x, y, z)
         glVertex3f(x + n, y, z)
-        glVertex3f(x + n, y, z + n)
-        glVertex3f(x, y, z + n)
+        glVertex3f(x + n, y, z - n)
+        glVertex3f(x, y, z - n)
     glEnd()
 
 def cubo(x, y, z, c):
     n = 1 / 11
     squad(x, y, z, n, 0, c)
-    squad(x, y, z + n, n, 0, c)
+    squad(x, y, z-n, n, 0, c)
     squad(x + n, y, z, n, 1, c)
     squad(x, y, z, n, 1, c)
-    squad(x, y + n, z, n, 2, c)
+    squad(x, y - n, z, n, 2, c)
     squad(x, y, z, n, 2, c)
 
 def make_lab(matriz):
+    # for x in range(len(matriz)):
     for x in range(len(matriz)):
         for y in range(len(matriz[x])):
+        # for y in range(len(matriz[x])):
             color = (0, 0, 0)
             if matriz[x][y] == 0:
                 color = (1, 1, 1)
-            cubo(y/11 - 1, 1 - x/11, 1 - x/11, color)
+            print(y/11 - 1, 1 - x/11, 1 )#- x/11)
+            cubo(y/11 - 1, 1 - x/11, 1, color)#, color)
 
 def iterate():
     glViewport(0, 0, w, h)
     glMatrixMode(GL_PROJECTION)  # Seleccionamos la matriz de proyección
     glLoadIdentity()  # Limpiamos la matriz seleccionada
     # Definimos la proyección a usar como una ortogonal
-    glOrtho(-3, 1, -2, 1, -1, 10)
+    glOrtho(-2, 2, -2, 2, -2, 1)
     glMatrixMode(GL_MODELVIEW)  # Seleccionamos la matriz del modelo
     glLoadIdentity()  # Limpiamos la matriz seleccionada, a partir de este punto lo que se haga quedara en la matriz del modelo de vista
 
@@ -85,7 +88,7 @@ def showScreen():
     glLoadIdentity()
     iterate()
     glPushMatrix()
-    # glRotatef(0, 1, 1, 1)
+    glRotatef(90, 1, 1, 1)
     make_lab(laberinto)
     glPopMatrix()
     glutSwapBuffers()
