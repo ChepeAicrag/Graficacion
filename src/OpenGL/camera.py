@@ -10,13 +10,14 @@ from OpenGL import *
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
+import numpy as np
 
 window = None
 w, h = 500, 500
 theta = 0
 rx, px = 3, 0
 ry, py = -6, 0
-rz, pz = 0, 0
+rz, pz = 0, -1
 
 
 def square(x, y, z, i, c):
@@ -59,14 +60,14 @@ def turn():
 
 def move(key, x, y):
     global ry, rx, rz, px, py, pz
-    move = 0.20
+    move = 0.5
     key = key.decode('utf-8')
     print(key)
     if (key == 'f'):
         global window
         glutDestroyWindow(window)
         return 0
-    elif (key == 'j'):
+    if (key == 'j'):
         px -= move
     elif (key == 'i'):
         pz += move
@@ -74,24 +75,19 @@ def move(key, x, y):
         pz -= move
     elif (key == 'l'):
         px += move
+
     elif (key == 'w'):
         rz += move
-        pz += move
     elif (key == 's'):
         rz -= move
-        pz -= move
     elif (key == 'a'):
         rx -= move
-        px -= move
     elif (key == 'd'):
         rx += move
-        px += move
     elif (key == 'q'):
         ry -= move
-        py -= move
     elif (key == 'e'):
         ry += move
-        py += move
     glutPostRedisplay()
 
 
@@ -100,11 +96,9 @@ def iterate():
     glViewport(0, 0, w, h)
     glMatrixMode(GL_PROJECTION)  # Seleccionamos la matriz de proyección
     glLoadIdentity()  # Limpiamos la matriz seleccionada
-    # glFrustum(-3, 3, -3, 3, 3, 10)
     gluPerspective(90.0, float(w)/float(h), 1, 100)
     glMatrixMode(GL_MODELVIEW)  # Seleccionamos la matriz del modelo
     glLoadIdentity()  # Limpiamos la matrxiz seleccionada, a partir de este punto lo que se haga quedara en la matriz del modelo de vista
-
 
 def eje():
     n = 100
@@ -131,12 +125,7 @@ def showScreen():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
     iterate()
-    print(rx, ry, rz)
     gluLookAt(rx, ry, rz, px, py, pz, 0, 0, 1)
-    # gluLookAt(rx, ry, rz, px, py, pz, 0, 0, 1)
-    # glRotatef(theta, 1, 1, 1)
-    # glRotatef(theta, 0, 1, 0)
-    # glRotatef(theta, 0, 0, 1)
     cube(-3, 3, 3)
     eje()
     glutSwapBuffers()
