@@ -12,16 +12,9 @@ from math import cos, sin, radians
 
 window = None
 w, h = 500, 500
-
-cameraPos = np.array([0.0, 0, 3.0])
-cameraFront = np.array([0.0, 0.0, -1.0])
-cameraUp = np.array([0.0, 1.0, 0.0])
-cameraRight = np.array([1.0, 0.0, 0.0])
-worldUp = np.array([0.0, 1.0, 0.0])
-
-mouse = (w / 2, h / 2, None)
-yaw, pitch = -90.0, 0
-sx, sy = 0, 0
+rx, px = 3, 0
+ry, py = -6, 0
+rz, pz = 0, 0
 
 pared_derecha = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -222,6 +215,31 @@ pared_en_medio = [
 pared_cocina_puerta = [
     # [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+
+pared_cocina_entrada = [
+    # [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -276,8 +294,6 @@ def cubo(x, y, z, c):
     squad(x, y, z, n, 2, c)
 
 # Valor 2 sin color
-
-
 def make_pared(value, pared):
     n = 1 / 11
     for x in range(len(pared)):
@@ -322,66 +338,62 @@ def make_lab():
     
     glTranslatef(0, 0, -1)
     glTranslatef(2.9, 0, 0)
-    make_pared(2, pared_cocina_puerta)
+    make_pared(2, pared_cocina_entrada)
     
     glRotatef(-90, 0, 1, 0)
-    glTranslatef(0, -1, 0)
+    glTranslatef(1, 0, 0)
     make_pared(2, pared_cocina_puerta)
-
-def move_mouse(button, mode, x, y):
-    global mouse
-    mouse = (x, y, button) if mode == GLUT_DOWN else (x, y, None)
-
-
-def calc_move_mouse(x, y):
-    global mouse, yaw, pitch, cameraFront, cameraRight, cameraUp, sx, sy
-    x_m, y_m, button = mouse
-    if button == GLUT_LEFT_BUTTON:
-        sx = (x - x_m) * 0.7
-        sy = (y_m - y) * 0.7
-    yaw += sx
-    pitch += sy
-    if pitch > 89.9:
-        pitch = 89.9
-    if pitch < -89.9:
-        pitch = -89.9
-    direction = [
-        cos(radians(yaw)) * cos(radians(pitch)),
-        sin(radians(pitch)),
-        sin(radians(yaw)) * cos(radians(pitch))
-    ]
-    fv = np.array(direction)
-    cameraFront = fv / np.linalg.norm(fv)
-    v = np.cross(cameraFront, worldUp)
-    cameraRight = v / np.linalg.norm(v)
-    # v_up = np.cross(cameraRight, cameraFront)
-    # cameraUp = v_up / np.linalg.norm(v_up)
-
-    mouse = x, y, None
-    glutPostRedisplay()
-    print(x, y)
-    print(mouse)
 
 
 def move(key, x, y):
-    global window, cameraPos, cameraUp, cameraFront, cameraRight
-    move = 0.5
+    global ry, rx, rz, px, py, pz
+    move = 0.20
     key = key.decode('utf-8')
     print(key)
     if (key == 'f'):
+        global window
         glutDestroyWindow(window)
         return 0
 
+    elif (key == 'j'):
+        px -= move
+    elif (key == 'i'):
+        pz += move
+    elif (key == 'k'):
+        pz -= move
+    elif (key == 'l'):
+        px += move
+
     elif (key == 'w'):
-        cameraPos += (move * cameraFront)
+        rz += move
     elif (key == 's'):
-        cameraPos -= (move * cameraFront)
+        rz -= move
     elif (key == 'a'):
-        cameraPos -= cameraRight * move
+        rx -= move
     elif (key == 'd'):
-        cameraPos += cameraRight * move
+        rx += move
+    elif (key == 'q'):
+        ry -= move
+    elif (key == 'e'):
+        ry += move
     glutPostRedisplay()
 
+def flechas(key, x, y):
+    move = 0.20
+    global rx,px,rz,pz,ry,rz,py
+    if (key == GLUT_KEY_LEFT):
+        rx += move
+        px += px  
+    elif (key == GLUT_KEY_RIGHT):
+        rx -= move
+        px -= move
+    elif (key == GLUT_KEY_UP):
+        rz += move
+        pz += move
+    elif (key == GLUT_KEY_DOWN):
+        rz += move
+        pz += move
+    glutPostRedisplay()
 
 def eje():
     n = 100
@@ -409,7 +421,7 @@ def iterate():
     glViewport(0, 0, w, h)
     glMatrixMode(GL_PROJECTION)  # Seleccionamos la matriz de proyección
     glLoadIdentity()  # Limpiamos la matriz seleccionada
-    gluPerspective(90.0, float(w)/float(h), 1, 100)
+    gluPerspective(60, h/w, 1, 100)
     glMatrixMode(GL_MODELVIEW)  # Seleccionamos la matriz del modelo
     glLoadIdentity()  # Limpiamos la matrxiz seleccionada, a partir de este punto lo que se haga quedara en la matriz del modelo de vista
 
@@ -420,9 +432,7 @@ def showScreen():
     iterate()
     # gluPerspective(120, 1, 1, 40)
     glPushMatrix()
-    suma = np.array(cameraPos + cameraFront)
-    gluLookAt(cameraPos[0], cameraPos[1], cameraPos[2], suma[0], suma[1], suma[2],
-              cameraUp[0], cameraUp[1], cameraUp[2])    # gluLookAt(5, 5, 5, px, py, pz, 0, 0, 1)
+    gluLookAt(-10+rx,9+ry,-10+rz,px,py,pz,0,1,0)
     make_lab()
     eje()
     glPopMatrix()
@@ -441,8 +451,7 @@ def main():
     glEnable(GL_DEPTH_TEST)  # Permite ver sin transparentar las figuras
     glutDisplayFunc(showScreen)
     glutKeyboardFunc(move)
-    glutMouseFunc(move_mouse)
-    glutMotionFunc(calc_move_mouse)
+    glutSpecialFunc(flechas)
     glutMainLoop()  # Iniciamos el loop principal
 
 
