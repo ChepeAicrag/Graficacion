@@ -114,7 +114,7 @@ def eje():
     glVertex3f(0, 0, 0)
     glVertex3f(0, n, 0)
     glEnd()
-        # Eje x
+    # Eje x
     glColor3f(1, 0, 0)
     glBegin(GL_LINE_STRIP)
     glVertex3f(0, 0, 0)

@@ -50,6 +50,27 @@ def Cube(V0,V1,V2,V3,V4,V5,V6,V7):
     glColor3f(0.94,.9,.28)
     Face(V0,V1,V5,V4) #arriba
 
+def eje():
+    n = 100
+    # Eje y-
+    glColor3f(0, 1, 0)
+    glBegin(GL_LINE_STRIP)
+    glVertex3f(0, 0, 0)
+    glVertex3f(0, n, 0)
+    glEnd()
+        # Eje x
+    glColor3f(1, 0, 0)
+    glBegin(GL_LINE_STRIP)
+    glVertex3f(0, 0, 0)
+    glVertex3f(n, 0, 0)
+    glEnd()
+    # Eje z
+    glColor3f(0, 0, 1)
+    glBegin(GL_LINE_STRIP)
+    glVertex3f(0, 0, 0)
+    glVertex3f(0, 0, n)
+    glEnd()
+
 def Draw():
     V=   (
             (-5.5, 5.5, 5.5),
@@ -68,6 +89,7 @@ def Draw():
     glRotatef(rotate_y,0.0,1.0,0.0)
     glRotatef(rotate_z,0.0,0.0,1.0) """
     Cube(V[0],V[1],V[2],V[3],V[4],V[5],V[6],V[7])
+    eje()
 
 
 def reshape(w,h):
