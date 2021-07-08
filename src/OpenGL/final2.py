@@ -357,6 +357,28 @@ pared_entrada_bathroom = [
     [7, 7, 7, 7, 7, 7, 7, 7, 7, 2, 2, 2, 2, 2, 2, 2, 2, 2, 7],
     [7, 7, 7, 7, 7, 7, 7, 7, 7, 2, 2, 2, 2, 2, 2, 2, 2, 2, 7]]
 
+pared_entrada_bathroom_2 = [
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 2, 2, 2, 2, 2, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]]
+
 def squad(x, y, z, n, i, c):
     r, g, b = c
     glBegin(GL_QUADS)
@@ -400,15 +422,17 @@ def make_pared(value, pared):
             v = pared[x][y]
             if v == value:
                 continue
-            color = (0, 0, 1)
+            color = (0, 0, 1) # Azul
             if v == 0:
-                color = (1, 1, 1)
+                color = (1, 1, 1) # Rojo
             if v == 3:
-                color = (1, 0, 0)    
+                color = (1, 0, 0)  #  
             if v == 4:
-                color = (0, 1, 0)
+                color = (0, 1, 0) # Verde
             if v == 7:
                 color = (0.1, 0.1, 0.1)
+            if v == 8:
+                color = (0.1, 0.0, 0.0) # Café
             # print(y * n - 1, 1 - x * n, 1)
             cubo(y * n - 1, 1 - x * n, 1, color)
 
@@ -460,6 +484,9 @@ def make_lab():
     glTranslatef(0, 0, 0.5)
     make_pared(2, pared_entrada_bathroom)
 
+    glTranslatef(0, 0, -1.2)
+    make_pared(2, pared_entrada_bathroom_2)
+    
 def move_mouse(button, mode, x, y):
     global mouse
     mouse = (x, y, button) if mode == GLUT_DOWN else (x, y, None)
@@ -469,8 +496,8 @@ def calc_move_mouse(x, y):
     global mouse, yaw, pitch, cameraFront, cameraRight, cameraUp, sx, sy
     x_m, y_m, button = mouse
     if button == GLUT_LEFT_BUTTON:
-        sx = (x - x_m) * 0.7
-        sy = (y_m - y) * 0.7
+        sx = (x - x_m) * 0.15
+        sy = (y_m - y) * 0.15
     yaw += sx
     pitch += sy
     if pitch > 89.9:
@@ -486,8 +513,8 @@ def calc_move_mouse(x, y):
     cameraFront = fv / np.linalg.norm(fv)
     v = np.cross(cameraFront, worldUp)
     cameraRight = v / np.linalg.norm(v)
-    v_up = np.cross(cameraRight, cameraFront)
-    cameraUp = v_up / np.linalg.norm(v_up)
+    # v_up = np.cross(cameraRight, cameraFront)
+    # cameraUp = v_up / np.linalg.norm(v_up)
 
     mouse = x, y, None
     glutPostRedisplay()
