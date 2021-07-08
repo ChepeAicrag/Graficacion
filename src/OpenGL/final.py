@@ -309,15 +309,15 @@ def make_lab():
     glTranslatef(0, 0, 2)
     make_pared(2, pared_izquierda)
     
-    # glRotatef(-90, 1, 0, 0)
-    # glTranslatef(0, -2, 0)
-    # make_pared(2, piso)
+    # glRotatef(-90, 1, 0, 0) no 
+    # glTranslatef(0, -2, 0) no 
+    # make_pared(2, piso) no
     
     glRotatef(-90, -1, 0, 0)
     make_pared(2, piso)
 
     glRotatef(90, 1, 0, 0)
-    # glTranslatef(0, -1, 0)
+    # glTranslatef(0, -1, 0) no
     make_pared(2, pared_en_medio)
     
     glTranslatef(0, 0, -1)

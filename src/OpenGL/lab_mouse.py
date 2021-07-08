@@ -142,7 +142,7 @@ def iterate():
     glViewport(0, 0, w, h)
     glMatrixMode(GL_PROJECTION)  # Seleccionamos la matriz de proyección
     glLoadIdentity()  # Limpiamos la matriz seleccionada
-    gluPerspective(70.0, w/h, 1, 100)
+    gluPerspective(120.0, w/h, 1, 100)
     glMatrixMode(GL_MODELVIEW)  # Seleccionamos la matriz del modelo
     glLoadIdentity()  # Limpiamos la matrxiz seleccionada, a partir de este punto lo que se haga quedara en la matriz del modelo de vista
 

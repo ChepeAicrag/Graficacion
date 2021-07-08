@@ -12,6 +12,7 @@ from math import cos, sin, radians # Math para las operaciones trigonometricas
 
 window = None # Objeto de la ventana
 w, h = 500, 500 # Tamaño de la ventana
+theta = 0 # Ángulo de rotación
 
 position = np.array([0.0, 0, 3.0]) # Vector de posición de la cámara
 front =  np.array([0.0, 0.0, -1.0]) # Vector de dirección de la cámara
@@ -53,6 +54,12 @@ def cube(x, y, z):
     square(-x, y, z, 1, (0.0, 1.0, 0.0))
     square(x, y, z, 2, (1.0, 1.0, 0.0))
     square(x, -y, z, 2, (0.0, 0.0, 1.0))
+
+def turn():
+    global theta
+    theta = theta + 0.10
+    theta = theta >= 360 if 0 else theta
+    glutPostRedisplay()
 
 def move_mouse(button, mode, x, y):
     global mouse
@@ -112,35 +119,14 @@ def iterate():
     glMatrixMode(GL_MODELVIEW)  # Seleccionamos la matriz del modelo
     glLoadIdentity()  # Limpiamos la matrxiz seleccionada, a partir de este punto lo que se haga quedara en la matriz del modelo de vista
 
-def eje():
-    n = 100
-    # Eje y-
-    glColor3f(0, 1, 0)
-    glBegin(GL_LINE_STRIP)
-    glVertex3f(0, 0, 0)
-    glVertex3f(0, n, 0)
-    glEnd()
-    # Eje x
-    glColor3f(1, 0, 0)
-    glBegin(GL_LINE_STRIP)
-    glVertex3f(0, 0, 0)
-    glVertex3f(n, 0, 0)
-    glEnd()
-    # Eje z
-    glColor3f(0, 0, 1)
-    glBegin(GL_LINE_STRIP)
-    glVertex3f(0, 0, 0)
-    glVertex3f(0, 0, n)
-    glEnd()
-
 def showScreen():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
     iterate()
     suma = np.array(position + front) # Calculamos el vector de dirección
     gluLookAt(position[0], position[1], position[2], suma[0], suma[1], suma[2], up[0], up[1], up[2]) # Posicionamiento de la cámara
+    # glRotatef(theta, 1, 1, 1)
     cube(-1, 1, 1)
-    eje()
     glutSwapBuffers()
 
 def main():
@@ -155,7 +141,7 @@ def main():
     glutKeyboardFunc(move)
     glutMouseFunc(move_mouse)
     glutMotionFunc(calc_move_mouse)
+    glutIdleFunc(turn)
     glutMainLoop()  # Iniciamos el loop principal
 
 main()
-
