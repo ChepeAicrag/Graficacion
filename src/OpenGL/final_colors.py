@@ -38,7 +38,7 @@ colors_p = {
     -9: (0.502, 0.251, 0), # Café
     -10: (0.760, 0.607, 0.380),#  Café del piso
     -11: (0, 1, 1),
-    -12: (0, 1, 0),
+    -12: (1, 0, 0),
     -13: (0, 0, 1),
     3: (0, 0, 1), # Azul
 }
@@ -607,7 +607,7 @@ def showScreen():
     gluLookAt(cameraPos[0], cameraPos[1], cameraPos[2], suma[0], suma[1], suma[2],
               cameraUp[0], cameraUp[1], cameraUp[2])    # gluLookAt(5, 5, 5, px, py, pz, 0, 0, 1)
     make_lab()
-    eje()
+    # eje()
     glPopMatrix()
     glutSwapBuffers()
 
