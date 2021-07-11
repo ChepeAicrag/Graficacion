@@ -23,14 +23,14 @@ rz, pz = 0, 0
 
 def loadTexture(name):
     texture = Image.open(name)
-    textureData = texture.convert('RGB').tobytes()
+    textureData = texture.convert('RGBA').tobytes()
     width = texture.width
     height = texture.height
     glEnable(GL_TEXTURE_2D)
     texid = glGenTextures(1)
     glBindTexture(GL_TEXTURE_2D, texid)
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height,
-                 0, GL_RGB, GL_UNSIGNED_BYTE, textureData)
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
+                 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
@@ -42,7 +42,7 @@ def square(x, y, z, i, c):
     # r, g, b = c
     loadTexture(c)
     glBegin(GL_QUADS)
-    # glColor3f(r, g, b)
+    glColor3f(1, 1, 1)
     if i == 0:
         glTexCoord3f(0.0, 0.0, 0.0)
         glVertex3f(x, y, z)
@@ -74,12 +74,12 @@ def square(x, y, z, i, c):
 
 
 def cube(x, y, z):
-    square(x, y, z, 0, 'wall.jpg')
-    square(x, y, -z, 0, '2.jpg')
-    square(x, y, z, 1, '3.jpg')
-    square(-x, y, z, 1, '4.png')
-    square(x, y, z, 2, '5.jpg')
-    square(x, -y, z, 2, '6.jpg')
+    square(x, y, z, 0, 'textures/piso.jpg')
+    square(x, y, -z, 0, 'textures/piso.jpg')
+    square(x, y, z, 1, 'textures/piso.jpg')
+    square(-x, y, z, 1, 'textures/piso.jpg')
+    square(x, y, z, 2, 'textures/piso.jpg')
+    square(x, -y, z, 2, 'textures/piso.jpg')
     # square(x, y, z, 0, (1.0, 0.0, 0.0))
     # square(x, y, -z, 0, (0.34, 0.14, 0.39))
     # square(x, y, z, 1, (0.5, 0.25, 0.0))
@@ -173,7 +173,7 @@ def showScreen():
     gluLookAt(rx, ry, rz, px, py, pz, 0, 0, 1)
     # loadTexture()
     cube(-3, 3, 3)
-    eje()
+    # eje()
     glutSwapBuffers()
 
 def main():
